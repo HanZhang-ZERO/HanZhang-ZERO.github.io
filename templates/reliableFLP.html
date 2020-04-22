@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>Reliable FLP</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Sonsie+One" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=ZCOOL+KuaiLe&amp;subset=chinese-simplified" rel="stylesheet">
+    <link rel="shortcut icon" href="/static/imgs/01taiji.ico" type="image/x-icon">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="minimal-table.css" rel="stylesheet" type="text/css">
+    <style>
+        /* h1 {
+        /* 居中标题 */
+        margin: 0 auto;
+        width: 1000px;
+        text-align: center; /* 使文字居中 */
+        /* 显示表单的轮廓 */
+        padding: 0.5em;
+        border: 1px solid #CCC;
+        border-radius: 1em;
+        } */
+
+        form {
+        /* 居中表单 */
+        margin: 0 auto;
+        width: 600px;
+        /* 显示表单的轮廓 */
+        padding: 1em;
+        border: 1px solid #CCC;
+        border-radius: 1em;
+        text-align: center;
+        }
+
+        form div + div {
+        margin-top: 1em;
+        }
+
+        label {
+        /* 确保所有label大小相同并正确对齐 */
+        display: inline-block;
+        width: 150px;
+        text-align: center;
+        font-size: 15px;
+        }
+        figure, figcaption{
+            font-size: 20px;
+            text-align: center;
+        }
+
+        input, textarea, select {
+        /* 确保所有文本输入框字体相同
+            textarea默认是等宽字体 */
+            text-align: center;
+        font: 2em sans-serif;
+
+        /* 使所有文本输入框大小相同 */
+        width: 300px;
+        box-sizing: border-box;
+
+        /* 调整文本输入框的边框样式 */
+        border: 1px solid #999;
+        }
+
+        input:focus, textarea:focus, select:focus {
+        /* 给激活的元素一点高亮效果 */
+        border-color: #000;
+        }
+
+        textarea {
+        /* 使多行文本输入框和它们的label正确对齐 */
+        vertical-align: top;
+
+        /* 给文本留下足够的空间 */
+        height: 5em;
+        }
+
+        .button {
+        /* 把按钮放到和文本输入框一样的位置 */
+        padding-left: 100px; /* 和label的大小一样 */
+        }
+
+        button {
+        /* 这个外边距的大小与label和文本输入框之间的间距差不多 */
+        margin-left: 0em;
+        
+        }
+
+        table {
+        border-collapse: collapse;
+        border: 2px solid rgb(200,200,200);
+        letter-spacing: 1px;
+        font-size: 1.5rem;
+        margin: auto;  /* 使表格居中 */
+        }
+
+        td, th {
+        border: 1px solid rgb(190,190,190);
+        padding: 10px 5px;  /* 与边界的距离 */
+        }
+
+        th {
+        background-color: rgb(235,235,235);
+        }
+
+        td {
+        text-align: center;
+        }
+
+        tr:nth-child(even) td {
+        background-color: rgb(250,250,250);
+        }
+
+        tr:nth-child(odd) td {
+        background-color: rgb(245,245,245);
+        }
+
+        caption {
+            font-size: 20px;
+            padding: 10px;
+        }
+    </style>
+
+  </head>
+
+  <body>
+    <!-- 以下是本站所有网页的统一主标题 -->
+    <header>
+      <h1><a name="top">设施选址问题(Facility Location Problem, FLP)</a></h1>
+    </header>
+
+    <nav>
+      <ul>
+        <li><a href="/index.html">关于FLP</a></li>        
+        <li><a href="/mathModel.html">数学模型</a></li>
+        <li><a href="/algoDescribtion.html">算法说明</a></li>
+        <li><a href="/reliableFLP.html">Reliable FLP</a></li>
+        <li><a href="/RRFLP.html">Reliable & Robust FLP</a></li>
+      </ul>
+
+      <!-- 搜索栏是站点内导航的一个非线性的方式。 -->
+
+      <!-- <form>
+        <input type="search" name="q" placeholder="要搜索的内容">
+        <input type="submit" value="搜索">
+      </form> -->
+    </nav>
+
+    <!-- 以下是网页主体内容 -->
+    <main>
+
+      <!-- 包含一个 article（一篇文章） -->
+      <article>
+        <h2 style="background-color: #66ccff;color:black;">使用EAMLS解决Reliable FLP</h2>
+        <!-- 从前端接收的数据将用使用HTTP POST 方法,把信息发送到URL为 "/index/目录下 -->
+        <form action="/reliableFLP.html" method="post">
+            <h2 style="background-color: azure;color: black;text-align: center;">设定生成问题实例的参数</h2>
+            <!-- <input type="text" name="username" placeholder="用户名"/>
+            <input type="password" name="password"/> -->
+            <div>
+                <label for="iSitesNum" title="请输入整数">候选地址数量：</label>
+                <input type="text" name="iSitesNum" id="iSitesNum" value="10" placeholder="候选地址数量"/>
+            </div>
+            <!-- <div>
+                <label for="iScenNum">场景规划数量：</label>
+                <input type="text" name="iScenNum" id="iScenNum" value="1" placeholder="规划场景数量" disabled/>
+            </div> -->
+            <div>
+                <label for="iDemandLB" title="下界需要小于上界">用户需求下界：</label>
+                <input type="text" name="iDemandLB" id="iDemandLB" value="100" placeholder="用户需求下界"/>
+            </div>
+            <div>
+                <label for="iDemandUB" title="上界需要大于下界">用户需求上界：</label>
+                <input type="text" name="iDemandUB" id="iDemandUB" value="1500"  placeholder="用户需求上界"/>
+                <span id="iDemandUB_span" style="color:red;"></span>
+            </div>
+            <div>
+                <label for="iFixedCostLB" title="下界需要小于上界">固定成本下界：</label>
+                <input type="text" name="iFixedCostLB" id="iFixedCostLB" value="500" placeholder="固定成本下界"/>
+            </div>
+            <div>
+                <label for="iFixedCostUB" title="上界需要大于下界">固定成本上界：</label>
+                <input type="text" name="iFixedCostUB" id="iFixedCostUB" value="1500" placeholder="固定成本上界"/>
+            </div>
+            <div>
+                <label for="iCoordinateLB" title="下界需要小于上界">坐标范围下界：</label>
+                <input type="text" name="iCoordinateLB" id="iCoordinateLB" value="0" placeholder="坐标范围下界"/>
+            </div>
+            <div>
+                <label for="iCoordinateUB" title="上界需要大于下界">坐标范围上界：</label>
+                <input type="text" name="iCoordinateUB" id="iCoordinateUB" value="1" placeholder="坐标范围上界"/>
+            </div>
+            <div>
+                <label for="fFaciFailProb" title="请输入0-1之间的小数">设施失效概率：</label>
+                <input type="text" name="fFaciFailProb" id="fFaciFailProb" value="0.05" placeholder="设施失效概率"/>
+            </div>
+            <!-- <input type="submit" value="提交"/> -->
+
+            <h2 style="background-color: azure;color: black;text-align: center;">设定EAMLS参数</h2>
+            <div>
+                <label for="iGenNum">演化代数：</label>
+                <input type="text" name="iGenNum" id="iGenNum" value="10" placeholder="演化代数"/>
+            </div>
+            <div>
+                <label for="iPopSize">种群规模：</label>
+                <input type="text" name="iPopSize" id="iPopSize" value="10" placeholder="种群规模"/>
+            </div>
+            <div>
+                <label for="iIndLen">个体长度：</label>
+                <input type="text" name="iIndLen" id="iIndLen" placeholder="个体长度等于候选地址数" disabled/>
+            </div>
+            <div>
+                <label for="fCrosRate" title="请输入0-1之间的小数">交叉率：</label>
+                <input type="text" name="fCrosRate" id="fCrosRate" value="0.9" placeholder="交叉率"/>
+            </div>
+            <div>
+                <label for="fMutRate" title="请输入0-1之间的小数">变异率：</label>
+                <input type="text" name="fMutRate" id="fMutRate" value="0.1" placeholder="变异率"/>
+            </div>
+            <div>
+                <label for="fAlpha" title="目标函数中的平衡系数">α值：</label>
+                <input type="text" name="fAlpha" id="fAlpha" value="1" placeholder="α值"/>
+            </div>
+            <!-- <div>
+                <label for="boolAllo2Faci">是否只为每个客户分配2个设施提供服务：</label>
+                <input type="text" name="boolAllo2Faci" id="boolAllo2Faci" value="True" placeholder="请填True或者False"/>
+            </div> -->
+            <div>
+                <label for="allocationMode" title="如何为客户分配设施，即模型中的m值">分配模式：</label>
+                <select id="allocationMode" name="allocationMode" value="为每个客户分配2个设施">
+                    <option>为每个客户分配2个设施</option>
+                    <option>为每个客户分配所有建造的设施</option>
+                </select>
+            </div>
+            <div>
+                <label for="iRunsNum">重复运行次数：</label>
+                <input type="text" name="iRunsNum" id="iRunsNum" value="1" placeholder="重复运行次数："/>
+            </div>
+            <div class="button">
+                <button type="submit">提交</button>
+            </div>
+        </form>
+
+        <h2 style="background-color: #66ccff;color: black;text-align: center;"><a name="displayUserData">用户输入数据展示</a></h2>
+        <table border="1">
+            <thead>
+                <!-- <th>用户名</th>
+                <th>密码</th> -->
+                <th>候选地址数量</th>
+                <th>用户需求下界</th>
+                <th>用户需求上界</th>
+                <th>固定成本下界</th>
+                <th>固定成本上界</th>
+                <th>坐标范围下界</th>
+                <th>坐标范围上界</th>
+                <th>设施失效概率</th>
+                <th>演化代数</th>
+                <th>种群规模</th>
+                <th>交叉率</th>
+                <th>变异率</th>
+                <th>α值</th>
+                <th>分配模式</th>
+            </thead>
+            <tbody>
+                {% for line in data %}
+                <tr>
+                    <!-- <td>{{line.user}}</td>
+                    <td>{{line.pwd}}</td> -->
+                    <td>{{line.sitesNum}}</td>
+                    <td>{{line.demandLB}}</td>
+                    <td>{{line.demandUB}}</td>
+                    <td>{{line.fixedCostLB}}</td>
+                    <td>{{line.fixedCostUB}}</td>
+                    <td>{{line.coordinateLB}}</td>
+                    <td>{{line.coordinateUB}}</td>
+                    <td>{{line.faciFailProb}}</td>
+                    <td>{{line.iGenNum}}</td>
+                    <td>{{line.iPopSize}}</td>
+                    <td>{{line.fCrosRate}}</td>
+                    <td>{{line.fMutRate}}</td>
+                    <td>{{line.fAlpha}}</td>
+                    <td>{{line.allocationMode}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h2 style="background-color: #66ccff;color:black;"><a name="displayResults">算法运行结果</a></h2>
+        <div>
+            <table border="1">
+                <caption>选址决策</caption>
+                <thead>
+                    <th>被选中的地址索引</th>
+                    <th>被选中的地址坐标</th>
+                </thead>
+                <tbody>
+                    {% for line in data %}
+                    <tr>
+                        <td>{{line.listLocationIndex}}</td>
+                        <td>{{line.listlist_locationCoordinate}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>            
+        </div>
+
+
+        <div>
+            <figure>
+                <a href="/static/imgs/1-scatter-RFLP.svg?rand=h9xqeI"><img src="/static/imgs/1-scatter-RFLP.svg?rand=h9xqeI"+Math.random() id="scatter" alt="选址示意图" height="400"/></a>
+                <figcaption>选址示意图</figcaption>
+            </figure>
+        </div>
+        <div>
+            <figure>
+                <a href="/static/imgs/2-convergenceCurves-RFLP.svg?rand=h9xqeI"><img src="/static/imgs/2-convergenceCurves-RFLP.svg?rand=h9xqeI"+Math.random() id="convergence" alt="算法收敛曲线图" height="400"/></a>
+                <figcaption>算法收敛曲线图. l1: 适应度值曲线；l2: 0-HDR曲线；l3: l3-value曲线. l1曲线适用左侧纵坐标，l2和l3曲线适用右侧纵坐标，所有曲线均适用上侧和下侧的横坐标.</figcaption>
+            </figure>
+        </div>
+
+        <a href="#top" target="_self">返回顶部</a>
+      </article>
+
+      <!-- 侧边栏在主内容右侧 -->
+      <aside>
+        <h2>相关链接</h2>
+
+        <ul>
+          <li><a href="#displayUserData">用户输入数据展示</a></li> <!-- 应是页面内超链接 -->
+          <li><a href="#displayResults">算法运行结果展示</a></li>  <!-- 应是页面内超链接 -->
+          <li><a href="/mathModel.html">数学模型</a></li>
+          <li><a href="/algoDescribtion.html">算法说明</a></li>
+          <li><a href="/reliableFLP.html">Reliable FLP</a></li>
+          <li><a href="/RRFLP.html">Reliable & Robust FLP</a></li>
+        </ul>
+      </aside>
+
+
+    </main>
+
+    <!-- 以下是本站所有网页的统一页脚 -->
+
+    <footer>
+      <p>© 2020 ZHANG Han保留所有权利 | Department of Computer Science and Technology, SUSTech</p>
+    </footer>
+
+  </body>
+</html>
